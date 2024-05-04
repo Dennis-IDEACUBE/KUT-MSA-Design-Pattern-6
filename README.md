@@ -165,3 +165,9 @@ http://naver.me/5IT0vYh8
                         hosts => "elasticsearch:9200"
                       }
                     }
+
+                    <dependency>
+                    <groupId>net.logstash.logback</groupId>
+                    <artifactId>logstash-logback-encoder</artifactId>
+                    <version>6.3</version>
+                    </dependency>
