@@ -145,7 +145,7 @@ http://naver.me/5IT0vYh8
               ports:
                 - "9411:9411"
 
-### logstash.confi
+### logstash.config
 
                     input {
                       tcp {
