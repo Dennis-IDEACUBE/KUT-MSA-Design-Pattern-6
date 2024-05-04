@@ -96,3 +96,72 @@ http://naver.me/5IT0vYh8
                 - ./database:/docker-entrypoint-initdb.d
               ports:
                 - 3306:3306
+
+### ELK
+            elasticsearch:
+              image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+              container_name: elasticsearch
+              environment:
+                - node.name=elasticsearch
+                - discovery.type=single-node
+                - cluster.name=docker-cluster
+                - bootstrap.memory_lock=true
+                - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+              ulimits:
+                memlock:
+                  soft: -1
+                  hard: -1
+              volumes:
+                - esdata1:/usr/share/elasticsearch/data
+              ports:
+                - 9300:9300
+                - 9200:9200
+          
+            kibana:
+              image: docker.elastic.co/kibana/kibana:7.7.0
+              container_name: kibana
+              environment:
+                ELASTICSEARCH_URL: "http://elasticsearch:9300"
+              ports:
+                - 5601:5601
+          
+            logstash:
+              image: docker.elastic.co/logstash/logstash:7.7.0
+              container_name: logstash
+              command: logstash -f /etc/logstash/conf.d/logstash.conf
+              volumes:
+                - ./config:/etc/logstash/conf.d
+              ports:
+                - "5000:5000"
+          
+            zipkin: 
+              image: openzipkin/zipkin 
+              container_name: zipkin
+              depends_on: 
+                - elasticsearch
+              environment: 
+                - STORAGE_TYPE=elasticsearch
+                - "ES_HOSTS=elasticsearch:9300"
+              ports:
+                - "9411:9411"
+
+### logstash.confi
+
+                    input {
+                      tcp {
+                        port => 5000
+                        codec => json_lines
+                      }
+                    }
+                    
+                    filter {
+                      mutate {
+                        add_tag => [ "manningPublications" ]
+                      }
+                    }
+                    
+                    output {
+                      elasticsearch {
+                        hosts => "elasticsearch:9200"
+                      }
+                    }
