@@ -145,7 +145,7 @@ http://naver.me/5IT0vYh8
               ports:
                 - "9411:9411"
 
-### logstash.config
+                    -- logstash.conf
 
                     input {
                       tcp {
@@ -172,6 +172,7 @@ http://naver.me/5IT0vYh8
                     <version>6.3</version>
                     </dependency>
 
+                    -- logback-delayed.xml -- 
                     <?xml version="1.0" encoding="UTF-8"?>
                     <configuration>
                         <include resource="org/springframework/boot/logging/logback/base.xml"/>
