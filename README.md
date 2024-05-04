@@ -1,5 +1,7 @@
 # KUT-MSA-Design-Pattern-6
 
+http://naver.me/5IT0vYh8
+
 ### ZipKin
 
         <dependency>
