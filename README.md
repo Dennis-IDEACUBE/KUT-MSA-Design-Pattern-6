@@ -9,6 +9,26 @@ http://naver.me/5IT0vYh8
           
           VBoxManage setextradata global GUI/Input/HostKeyCombination 162,164
 
+### Visual Studio Code
+
+            code --install-extension MS-CEINTL.vscode-language-pack-ko
+            code --install-extension ms-vscode-remote.remote-ssh
+            code --install-extension ms-azuretools.vscode-docker
+            code --install-extension vscjava.vscode-java-pack
+            code --install-extension vscjava.vscode-gradle
+            code --install-extension vmware.vscode-boot-dev-pack
+          
+            copy id_rsa on Host Windows(C:\Users\사용자\.ssh)
+          
+            -- config --------------------------------------
+            Host labserver
+            HostName localhost
+            Port 22101
+            User user1
+            IdentityFile C:\Users\사용자\.ssh\id_rsa
+            ------------------------------------------------
+
+
 ### ZipKin
 
         <dependency>
