@@ -62,4 +62,37 @@ http://naver.me/5IT0vYh8
           endpoints:
             web:
               exposure:
-                include: "prometheus"      
+                include: "prometheus"   
+
+
+
+          services:
+            zipkin:
+              image: ghcr.io/openzipkin/zipkin-slim:${TAG:-latest}
+              container_name: zipkin
+              environment:
+                - STORAGE_TYPE=mem
+                - MYSQL_HOST=mysql
+                # - SELF_TRACING_ENABLED=true
+                # - JAVA_OPTS=-Xms128m -Xmx128m -XX:+ExitOnOutOfMemoryError
+              ports:
+                - 9411:9411
+              command: --logging.level.zipkin2=DEBUG
+          
+            rabbitmq:
+              image: rabbitmq:latest
+              container_name: rabbitmq
+              ports:
+                - 5672:5672
+          
+            mysql:
+              image: mysql:latest
+              container_name: mysql
+              restart: always
+              environment:
+                MYSQL_ROOT_PASSWORD: 1234
+                TZ: Asia/Seoul
+              volumes:
+                - ./database:/docker-entrypoint-initdb.d
+              ports:
+                - 3306:3306
